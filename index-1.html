@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerForge — Universal Career Pathfinder</title>
+<style>
+:root{
+  --bg:#faf8f4;--card:rgba(255,255,255,.78);--text:#292624;--muted:#766f69;
+  --ember:#b95724;--ember2:#d97732;--line:#eadfd6;--success:#3f7657;
+  --shadow:0 18px 50px rgba(78,48,31,.10);--radius:24px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+button,input,select{font:inherit} button{cursor:pointer}
+.bg-orb{position:fixed;border-radius:50%;filter:blur(1px);pointer-events:none;z-index:-1;opacity:.45;transform:translate3d(0,0,0)}
+.o1{width:340px;height:340px;background:#f2c7a5;top:8%;left:-150px}.o2{width:300px;height:300px;background:#f0ddc6;right:-120px;top:45%}.o3{width:250px;height:250px;background:#f5b77f;left:40%;bottom:-100px}
+.container{width:min(1180px,92%);margin:auto}.section{padding:74px 0;position:relative}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.84);backdrop-filter:blur(12px);border-bottom:1px solid rgba(234,223,214,.7)}
+.navin{height:70px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:900;letter-spacing:-.5px}.brand span{color:var(--ember)}
+.navlinks{display:flex;gap:10px}.navlinks button{border:0;background:transparent;padding:10px 14px;border-radius:12px;color:var(--muted)}
+.hero{min-height:82vh;display:grid;place-items:center;text-align:center;padding-top:60px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid #edd6c7;border-radius:999px;background:#fff6ef;color:var(--ember);font-size:13px;font-weight:800}
+h1{font-size:clamp(42px,8vw,82px);line-height:.98;letter-spacing:-4px;margin:20px 0 18px}
+h2{font-size:clamp(30px,5vw,48px);letter-spacing:-2px;margin:8px 0 12px} h3{margin:0 0 8px}
+.lead{font-size:18px;line-height:1.7;color:var(--muted);max-width:760px;margin:0 auto 28px}
+.btn{border:0;border-radius:15px;padding:13px 18px;font-weight:850;transition:.2s transform,.2s box-shadow}
+.btn:hover{transform:translateY(-2px)}.primary{background:var(--ember);color:#fff;box-shadow:0 10px 25px rgba(185,87,36,.25)}
+.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}
+.grid{display:grid;gap:16px}.qualgrid{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.card{background:var(--card);border:1px solid rgba(234,223,214,.9);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;backdrop-filter:blur(10px)}
+.select-card{min-height:170px;text-align:left;transition:.25s;border:2px solid transparent}.select-card:hover{transform:translateY(-5px);border-color:#efc8b1}.select-card.active{border-color:var(--ember);background:#fff7f1}
+.icon{font-size:30px;margin-bottom:18px}.muted{color:var(--muted)}.small{font-size:13px;color:var(--muted)}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px}
+label{font-size:13px;font-weight:800;display:block;margin-bottom:7px}input,select{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--text);outline:none}input:focus,select:focus{border-color:var(--ember)}
+.sectionhead{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}.sectionhead p{max-width:650px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.pill{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:999px;font-size:13px;font-weight:750}.pill.active{background:var(--ember);color:#fff;border-color:var(--ember)}
+.careergrid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.career{position:relative;overflow:hidden}.career:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;background:#f7d5bd;right:-35px;top:-35px;opacity:.6}.badges{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.badge{font-size:11px;font-weight:850;padding:6px 8px;border-radius:999px;background:#fff1e7;color:var(--ember)}.badge.green{background:#eaf4ed;color:var(--success)}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.actions .btn{padding:10px 13px;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(36,28,24,.42);z-index:100;display:none;align-items:end;justify-content:center;padding:16px}.modal.open{display:flex}.sheet{width:min(980px,100%);max-height:92vh;overflow:auto;background:#fffaf6;border-radius:28px 28px 16px 16px;padding:26px;box-shadow:0 30px 100px rgba(0,0,0,.25)}
+.close{float:right;border:0;background:#f2e9e3;width:38px;height:38px;border-radius:50%}.detailgrid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.list{display:grid;gap:9px}.list div{padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:#fff}.video{display:flex;justify-content:space-between;align-items:center;gap:10px}.video a{color:var(--ember);font-weight:800;text-decoration:none}
+.roadmap{display:grid;gap:12px}.day{display:grid;grid-template-columns:100px 1fr auto;gap:14px;align-items:center}.daynum{font-weight:900;color:var(--ember)}.task{padding:15px;border:1px solid var(--line);border-radius:15px;background:#fff}.done{background:#edf6ef;border-color:#cde2d2}.check{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff}
+.progress{height:10px;border-radius:99px;background:#eee2da;overflow:hidden}.progress i{display:block;height:100%;background:var(--ember);width:0;transition:width .5s}
+.dashboard{grid-template-columns:1.3fr .7fr}.stat{font-size:32px;font-weight:900}.quote{font-size:18px;line-height:1.55;font-weight:700}.mood button{border:0;background:#fff0e7;border-radius:15px;padding:12px;font-size:24px;margin-right:5px}.toast{position:fixed;right:18px;bottom:18px;background:#292624;color:#fff;padding:14px 16px;border-radius:14px;display:none;z-index:200;box-shadow:var(--shadow)}
+.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
+footer{padding:45px 0;color:var(--muted);text-align:center;border-top:1px solid var(--line)}
+@media(max-width:760px){.navlinks{display:none}.section{padding:55px 0}.detailgrid,.dashboard{grid-template-columns:1fr}.day{grid-template-columns:65px 1fr auto}h1{letter-spacing:-2.5px}.sectionhead{display:block}.sectionhead .btn{margin-top:12px}}
+</style>
+</head>
+<body>
+<div class="bg-orb o1"></div><div class="bg-orb o2"></div><div class="bg-orb o3"></div>
+
+<nav class="nav"><div class="container navin">
+  <div class="brand">Career<span>Forge</span> ✦</div>
+  <div class="navlinks"><button onclick="scrollToId('discover')">Explore</button><button onclick="scrollToId('roadmap')">Roadmap</button><button onclick="scrollToId('dashboard')">Dashboard</button></div>
+</div></nav>
+
+<main>
+<section class="hero section" id="welcome">
+<div class="container reveal">
+  <div class="eyebrow">🔥 Universal Career Pathfinder</div>
+  <h1>Your career.<br><span style="color:var(--ember)">In your hands.</span></h1>
+  <p class="lead">One place to explore hundreds of career paths, understand what each path needs, generate a practical roadmap, learn from topic-specific videos, take mocks and recover automatically when life gets in the way.</p>
+  <button class="btn primary" onclick="scrollToId('profile')">Start My Roadmap →</button>
+</div>
+</section>
+
+<section class="section" id="profile">
+<div class="container reveal">
+ <div class="sectionhead"><div><div class="eyebrow">01 · Tell us where you are</div><h2>Who are you right now?</h2><p class="muted">Choose your current stage. The next questions and career paths adapt automatically.</p></div></div>
+ <div class="grid qualgrid" id="qualGrid"></div>
+ <div id="educationPanel"></div>
+</div>
+</section>
+
+<section class="section" id="discover">
+<div class="container reveal">
+ <div class="sectionhead"><div><div class="eyebrow">02 · Discover</div><h2>Paths that fit your starting point.</h2><p class="muted">The first set is filtered around your qualification and education context. Open the full explorer whenever you want.</p></div><button class="btn primary" onclick="openExplorer()">✨ Career in Your Hands</button></div>
+ <div class="toolbar" id="filters"></div>
+ <div class="grid careergrid" id="careerGrid"></div>
+</div>
+</section>
+
+<section class="section" id="roadmap">
+<div class="container reveal">
+ <div class="sectionhead"><div><div class="eyebrow">03 · Execute</div><h2 id="roadmapTitle">Your roadmap</h2><p class="muted">Pick a career above to generate an actionable plan. Your choice is persisted locally for this standalone demo.</p></div><button class="btn secondary" onclick="clearGoal()">Change career</button></div>
+ <div id="roadmapContent" class="empty">Choose a career to generate your roadmap.</div>
+</div>
+</section>
+
+<section class="section" id="dashboard">
+<div class="container reveal">
+ <div class="sectionhead"><div><div class="eyebrow">04 · Keep moving</div><h2>Daily dashboard</h2></div></div>
+ <div class="grid dashboard">
+   <div class="card"><h3>Today's priority</h3><div id="todayTask" style="font-size:20px;font-weight:850;margin:12px 0">Choose a career first.</div><div class="progress"><i id="progressBar"></i></div><p class="small" id="progressText">0% roadmap progress</p><div class="actions"><button class="btn primary" onclick="completeToday()">✓ Complete</button><button class="btn secondary" onclick="skipToday()">⏭ Skip / Catch-up</button></div></div>
+   <div class="card"><h3>🔥 Streak</h3><div class="stat" id="streak">0 days</div><p class="muted">Keep showing up.</p><hr style="border:0;border-top:1px solid var(--line);margin:20px 0"><h3>How are you feeling?</h3><div class="mood"><button onclick="mood('😄')">😄</button><button onclick="mood('🙂')">🙂</button><button onclick="mood('😐')">😐</button><button onclick="mood('😴')">😴</button><button onclick="mood('😕')">😕</button><button onclick="mood('🔥')">🔥</button></div><p id="moodMsg" class="small"></p></div>
+ </div>
+ <div class="card" style="margin-top:16px"><h3>💬 Today's boost</h3><p class="quote" id="quote"></p></div>
+</div>
+</section>
+</main>
+
+<footer>CareerForge · A universal, data-driven career planning prototype.</footer>
+
+<div class="modal" id="modal"><div class="sheet"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const careers = [
+{id:"software",title:"Software Engineer",cat:"Technology",entry:["12th","Diploma","Undergraduate","Graduate","Working Professional"],badges:["High Growth"],exams:["No mandatory exam; JEE/B.Tech routes are common"],degrees:["B.Tech/B.E. CSE/IT, BCA, B.Sc CS or portfolio-based routes"],skills:["Programming","DSA","Git","Databases","System design"],syllabus:["Programming fundamentals","Data Structures","Algorithms","DBMS","Operating Systems","Computer Networks","System Design"],channels:["Gate Smashers","CodeWithHarry","Striver"],videos:["Operating Systems — Deadlocks","DSA — Graph Algorithms","DBMS — Normalization"],timeline:"6–18 months"},
+{id:"aiml",title:"AI / ML Engineer",cat:"AI & Data",entry:["12th","Undergraduate","Graduate","Working Professional"],badges:["High Growth"],exams:["JEE for engineering route; optional GATE for postgraduate route"],degrees:["B.Tech/B.E./B.Sc in CS, AI, Math, Statistics or related fields"],skills:["Python","Linear Algebra","Probability","ML","Deep Learning"],syllabus:["Python","Statistics","Linear Algebra","Machine Learning","Deep Learning","NLP","Computer Vision"],channels:["Krish Naik","CampusX","Codebasics"],videos:["Linear Regression","Gradient Descent","Neural Networks"],timeline:"8–20 months"},
+{id:"cyber",title:"Cybersecurity Analyst",cat:"Technology",entry:["12th","Diploma","Undergraduate","Graduate","Working Professional"],badges:["High Growth"],exams:["No universal mandatory exam"],degrees:["B.Tech/BCA/B.Sc CS, cybersecurity certifications or portfolio route"],skills:["Networking","Linux","Security fundamentals","SIEM","Incident response"],syllabus:["Networking","Linux","Cryptography","Web Security","SOC","Digital Forensics"],channels:["NetworkChuck","Gate Smashers","The Cyber Mentor"],videos:["OSI Model","Linux Permissions","SQL Injection"],timeline:"6–15 months"},
+{id:"upsc",title:"UPSC Civil Services",cat:"Government",entry:["Graduate","Working Professional"],badges:["Govt-Stable"],exams:["UPSC Civil Services Examination"],degrees:["Any recognized bachelor's degree"],skills:["General Studies","Current affairs","Answer writing","Reasoning"],syllabus:["Polity","History","Geography","Economy","Environment","Science & Tech","Ethics","Essay"],channels:["Drishti IAS","Vision IAS","Sansad TV"],videos:["Indian Constitution Basics","Monsoon & Indian Geography","Budget & Economy"],timeline:"12–24 months"},
+{id:"ssc",title:"SSC Government Careers",cat:"Government",entry:["12th","Graduate","Working Professional"],badges:["Govt-Stable","Fast Track"],exams:["SSC CHSL, CGL and other SSC examinations depending on eligibility"],degrees:["12th for CHSL; graduation for CGL"],skills:["Quantitative aptitude","Reasoning","English","General awareness"],syllabus:["Arithmetic","Algebra","Reasoning","English","General Awareness","Computer basics"],channels:["Adda247","Testbook","Careerwill"],videos:["Percentage","Coding-Decoding","Indian Polity Basics"],timeline:"4–12 months"},
+{id:"defence",title:"Defence Officer",cat:"Defence",entry:["12th","Undergraduate","Graduate"],badges:["Govt-Stable"],exams:["NDA, CDS, AFCAT and service-specific routes"],degrees:["12th or graduation depending on entry"],skills:["Aptitude","Fitness","Communication","Leadership"],syllabus:["Mathematics","English","General Ability","Current Affairs","SSB preparation"],channels:["Defence Wallah","SSBCrackExams","Major Kalshi Classes"],videos:["NDA Maths Strategy","SSB Interview Basics","Current Affairs"],timeline:"6–18 months"},
+{id:"doctor",title:"Doctor / MBBS",cat:"Medical",entry:["12th"],badges:["High Growth"],exams:["NEET-UG"],degrees:["MBBS followed by specialization options"],skills:["Biology","Chemistry","Physics","Clinical reasoning"],syllabus:["Physics","Physical Chemistry","Organic Chemistry","Botany","Zoology","Human Physiology"],channels:["PW NEET","Unacademy NEET","NEETprep"],videos:["Human Physiology","Chemical Bonding","Ray Optics"],timeline:"5.5+ years"},
+{id:"design",title:"UI/UX Designer",cat:"Design",entry:["12th","Diploma","Undergraduate","Graduate","Working Professional"],badges:["Fast Track","High Growth"],exams:["NID/UCEED routes for selected institutes; portfolios also matter"],degrees:["Design degree/diploma optional depending on route"],skills:["User research","Wireframing","Figma","Visual design","Prototyping"],syllabus:["Design principles","UX research","Information architecture","Wireframes","UI systems","Prototyping","Portfolio"],channels:["DesignCourse","Flux Academy","Jesse Showalter"],videos:["UX Research","Auto Layout in Figma","Design Systems"],timeline:"3–9 months"},
+{id:"cinema",title:"Cinematographer",cat:"Creative & Media",entry:["12th","Diploma","Undergraduate","Graduate","Working Professional"],badges:["Fast Track"],exams:["Institute-specific entrances where applicable; portfolio/practical route"],degrees:["Film school diploma/degree optional; practical portfolio is central"],skills:["Camera","Lighting","Composition","Color","Storytelling"],syllabus:["Camera basics","Exposure","Lenses","Lighting","Composition","Shot design","Color grading"],channels:["Film Riot","Indie Mogul","StudioBinder"],videos:["Three Point Lighting","Camera Exposure","Shot Composition"],timeline:"4–18 months"},
+{id:"editor",title:"Video Editor",cat:"Creative & Media",entry:["12th","Diploma","Undergraduate","Graduate","Working Professional"],badges:["Fast Track"],exams:["No mandatory exam"],degrees:["Not mandatory; portfolio and editing skill are key"],skills:["Premiere Pro/DaVinci","Story rhythm","Audio","Color","Motion basics"],syllabus:["Editing fundamentals","Cuts","Audio","Color","Motion","Short-form editing","Portfolio"],channels:["Premiere Gal","Casey Faris","Think Media"],videos:["J Cuts & L Cuts","DaVinci Color Basics","Audio Cleanup"],timeline:"2–6 months"},
+{id:"ca",title:"Chartered Accountant",cat:"Finance",entry:["12th","Graduate"],badges:["High Growth"],exams:["CA Foundation, Intermediate and Final"],degrees:["Commerce is useful but not mandatory for all entry routes"],skills:["Accounting","Taxation","Law","Audit","Finance"],syllabus:["Accounting","Business Law","Taxation","Costing","Auditing","Financial Reporting"],channels:["CA Rachana Ranade","Study At Home","Unacademy CA"],videos:["Accounting Basics","GST Fundamentals","Audit Concepts"],timeline:"3–5 years"},
+{id:"mba",title:"MBA / Management",cat:"Business",entry:["Graduate","Working Professional"],badges:["High Growth"],exams:["CAT/XAT/GMAT and institute-specific exams"],degrees:["Any recognized bachelor's degree"],skills:["Aptitude","Communication","Leadership","Business analysis"],syllabus:["Quant","LRDI","Verbal","Business fundamentals","Case studies","Interview prep"],channels:["2IIM CAT","Rodha","Cracku"],videos:["CAT Percentages","LRDI Sets","Case Interview Basics"],timeline:"6–18 months"},
+{id:"law",title:"Law / Advocate",cat:"Law",entry:["12th","Graduate"],badges:["High Growth"],exams:["CLAT and other institute routes for 5-year law; postgraduate routes vary"],degrees:["BA LLB/BBA LLB/LLB depending on entry"],skills:["Legal reasoning","Research","Writing","Communication"],syllabus:["Constitution","Contracts","Torts","Criminal law","Legal research","Mooting"],channels:["LegalEdge","Law Wallah","Unacademy Law"],videos:["Constitution Basics","Contract Law","Legal Reasoning"],timeline:"6 months–5 years"},
+{id:"data",title:"Data Analyst",cat:"AI & Data",entry:["Diploma","Undergraduate","Graduate","Working Professional"],badges:["Fast Track","High Growth"],exams:["No mandatory exam"],degrees:["Degree helpful but practical portfolio can demonstrate ability"],skills:["Excel","SQL","Python","Statistics","Power BI/Tableau"],syllabus:["Excel","SQL","Statistics","Python","Visualization","Dashboards","Projects"],channels:["Alex The Analyst","Codebasics","WsCube Tech"],videos:["SQL Joins","Power BI Dashboard","Descriptive Statistics"],timeline:"3–8 months"},
+{id:"architect",title:"Architect",cat:"Engineering & Design",entry:["12th"],badges:["High Growth"],exams:["NATA/JEE Paper 2 depending on institute"],degrees:["B.Arch"],skills:["Drawing","Design","Geometry","Software","Spatial reasoning"],syllabus:["Architecture drawing","Building materials","Structures","Design studio","CAD","History of architecture"],channels:["Architecture with Sharan","Archi Hacks","The Architectural Design"],videos:["Architectural Drawing","AutoCAD Basics","Building Materials"],timeline:"5 years"},
+{id:"teacher",title:"Teacher / Educator",cat:"Education",entry:["12th","Undergraduate","Graduate","Postgraduate"],badges:["Govt-Stable"],exams:["TET/CTET and recruitment-specific exams where applicable"],degrees:["D.El.Ed/B.Ed/subject degree depending on level"],skills:["Subject expertise","Communication","Pedagogy","Assessment"],syllabus:["Subject mastery","Pedagogy","Child development","Assessment","Lesson planning"],channels:["Magnet Brains","Khan GS Research Centre","Teaching Wallah"],videos:["Pedagogy Basics","Lesson Planning","Assessment Strategies"]},
+{id:"research",title:"Research Scientist",cat:"Science & Research",entry:["Graduate","Postgraduate"],badges:["High Growth"],exams:["GATE/CSIR-NET/JAM or institute-specific routes depending on field"],degrees:["B.Sc/B.Tech → M.Sc/M.Tech/PhD routes"],skills:["Research methods","Mathematics","Experimentation","Scientific writing"],syllabus:["Research methodology","Statistics","Domain theory","Literature review","Scientific writing","Project work"],channels:["NPTEL","MIT OpenCourseWare","Science Is Dope"],videos:["Literature Review","Research Methodology","Scientific Writing"]},
+{id:"entrepreneur",title:"Entrepreneur / Startup Founder",cat:"Business",entry:["12th","Diploma","Undergraduate","Graduate","Working Professional"],badges:["Fast Track","High Growth"],exams:["No mandatory exam"],degrees:["Not mandatory"],skills:["Problem discovery","Sales","Finance","Product","Leadership"],syllabus:["Idea validation","Customer research","MVP","Marketing","Sales","Finance","Operations"],channels:["Y Combinator","Think School","Foundr"],videos:["Customer Discovery","MVP Design","Startup Unit Economics"]},
+{id:"content",title:"Content Creator",cat:"Creative & Media",entry:["12th","Diploma","Undergraduate","Graduate","Working Professional"],badges:["Fast Track"],exams:["No mandatory exam"],degrees:["Not mandatory"],skills:["Storytelling","Video","Writing","Audience research","Analytics"],syllabus:["Niche research","Content strategy","Scripting","Production","Editing","Distribution","Analytics"],channels:["Think Media","Ali Abdaal","Primal Video"],videos:["Content Strategy","YouTube Analytics","Video Scripting"]}
+];
+
+const qualifications=[
+["12th","🎓","12th Pass Out"],["Diploma","🛠️","Diploma Holder"],["Undergraduate","📚","Degree Student"],["Graduate","🎯","Graduate"],["Postgraduate","🔬","Postgraduate"],["Working Professional","💼","Working Professional"]
+];
+let state=JSON.parse(localStorage.getItem("careerforge")||"{}");
+let selectedCat="All";
+
+function save(){localStorage.setItem("careerforge",JSON.stringify(state))}
+function scrollToId(id){document.getElementById(id)?.scrollIntoView({behavior:"smooth"})}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2400)}
+function renderQualifications(){
+ const g=document.getElementById("qualGrid");
+ g.innerHTML=qualifications.map(q=>`<button class="card select-card ${state.qualification===q[0]?"active":""}" onclick="selectQualification('${q[0]}')"><div class="icon">${q[1]}</div><h3>${q[2]}</h3><div class="small">Tap to personalize your path</div></button>`).join("");
+ if(state.qualification) renderEducation();
+}
+function selectQualification(q){state.qualification=q;state.profile={};selectedCat="All";save();renderQualifications();renderFilters();renderCareers();toast("Profile stage saved ✓")}
+function renderEducation(){
+ const q=state.qualification; let fields="";
+ if(q==="12th") fields=`${selectField("stream","Stream",["Science","Commerce","Arts/Humanities","Vocational"])}${selectField("goal","Current goal",["College admission","Government career","Creative career","Explore everything"])}`
+ if(q==="Diploma") fields=`${selectField("branch","Diploma branch",["CSE/IT","ECE","EEE","Mechanical","Civil","Chemical","Biotech","Other"])}${selectField("year","Year",["1st","2nd","3rd","Final year","Completed"])}`
+ if(q==="Undergraduate") fields=`${selectField("degree","Degree",["B.Tech/B.E.","BCA","B.Sc","B.Com","BA","BBA","LLB","MBBS","Other"])}${selectField("branch","Course / branch",["CSE/IT","ECE/EEE","Mechanical","Civil","AI/DS","Commerce","Arts","Science","Other"])}${selectField("year","Year",["1st","2nd","3rd","4th","Other"])}`
+ if(q==="Graduate") fields=`${selectField("degree","Completed degree",["B.Tech/B.E.","BCA/B.Sc","B.Com","BA","BBA","LLB","MBBS","Other"])}${selectField("sector","Graduation sector",["Technology","Engineering","Commerce/Finance","Science","Arts/Media","Healthcare","Law","Other"])}${selectField("experience","Experience",["Fresher","0–2 years","3–5 years","5+ years"])}`
+ if(q==="Postgraduate") fields=`${selectField("degree","Postgraduate degree",["M.Tech/M.E.","MCA","M.Sc","M.Com","MA","MBA","LLM","MD/MS","Other"])}${selectField("sector","Specialization",["Technology","Engineering","Finance","Science","Management","Healthcare","Arts/Media","Other"])}`
+ if(q==="Working Professional") fields=`${selectField("sector","Current sector",["Technology","Engineering","Finance","Healthcare","Government","Education","Creative","Business","Other"])}${selectField("role","Current role",["Developer","Engineer","Analyst","Manager","Designer","Teacher","Sales/Marketing","Other"])}${selectField("experience","Experience",["0–2 years","3–5 years","5–10 years","10+ years"])}`
+ document.getElementById("educationPanel").innerHTML=`<div class="card reveal visible" style="margin-top:18px"><h3>Personalize your starting point</h3><div class="fields">${fields}</div><div style="margin-top:16px"><button class="btn primary" onclick="saveProfile()">Continue to career discovery →</button></div></div>`;
+}
+function selectField(key,label,opts){return `<div><label>${label}</label><select id="f_${key}"><option value="">Choose...</option>${opts.map(x=>`<option>${x}</option>`).join("")}</select></div>`}
+function saveProfile(){state.profile={};document.querySelectorAll("#educationPanel select").forEach(s=>state.profile[s.id.slice(2)]=s.value);save();renderFilters();renderCareers();scrollToId("discover");toast("Your education profile is ready ✓")}
+function renderFilters(){document.getElementById("filters").innerHTML=["All",...new Set(careers.map(c=>c.cat))].map(c=>`<button class="pill ${selectedCat===c?"active":""}" onclick="setCat('${c.replace(/'/g,"\\'")}')">${c}</button>`).join("")}
+function relevant(c){
+ if(!state.qualification)return true;
+ if(!c.entry.includes(state.qualification))return false;
+ const p=state.profile||{};
+ if(state.qualification==="Undergraduate" && p.branch && p.branch!=="Other"){
+   if(p.branch.includes("CSE")||p.branch.includes("AI")) return true;
+ }
+ return true;
+}
+function renderCareers(){
+ let arr=careers.filter(relevant); if(selectedCat!=="All")arr=arr.filter(c=>c.cat===selectedCat);
+ const grid=document.getElementById("careerGrid");
+ grid.innerHTML=arr.map((c,i)=>careerCard(c,i)).join("")||`<div class="empty" style="grid-column:1/-1">No exact matches in this demo filter. Open Career in Your Hands to explore the full dataset.</div>`;
+}
+function careerCard(c,i){return `<article class="card career reveal visible" style="transition-delay:${Math.min(i,8)*45}ms"><div class="small">${c.cat}</div><h3>${c.title}</h3><div class="badges">${c.badges.map(b=>`<span class="badge ${b==="Govt-Stable"?"green":""}">${b}</span>`).join("")}</div><p class="small">${c.degrees[0]}</p><div class="actions"><button class="btn secondary" onclick="openCareer('${c.id}')">View path</button><button class="btn primary" onclick="chooseCareer('${c.id}')">Build roadmap</button></div></article>`}
+function setCat(c){selectedCat=c;renderFilters();renderCareers()}
+function openExplorer(){openModal(`<div class="eyebrow">✨ Career in Your Hands</div><h2>Explore every direction.</h2><p class="muted">Search across the career dataset, then open any path.</p><input id="searchCareer" placeholder="Search software, government, design, medicine..." oninput="explorerSearch()"><div class="toolbar">${["All","Technology","Government","AI & Data","Medical","Creative & Media","Finance","Business","Law","Science & Research","Engineering & Design","Defence","Education"].map(c=>`<button class="pill" onclick="exploreCat('${c}')">${c}</button>`).join("")}</div><div class="grid careergrid" id="explorerGrid">${careers.map(c=>careerCard(c,0)).join("")}</div>`)}
+function explorerSearch(){const term=(document.getElementById("searchCareer").value||"").toLowerCase();document.getElementById("explorerGrid").innerHTML=careers.filter(c=>(c.title+c.cat+c.skills.join(" ")).toLowerCase().includes(term)).map((c,i)=>careerCard(c,i)).join("")||`<div class="empty" style="grid-column:1/-1">No result. Try another keyword.</div>`}
+function exploreCat(cat){document.getElementById("explorerGrid").innerHTML=careers.filter(c=>cat==="All"||c.cat===cat).map((c,i)=>careerCard(c,i)).join("")}
+function openCareer(id){const c=careers.find(x=>x.id===id);openModal(`<div class="eyebrow">${c.cat}</div><h2>${c.title}</h2><div class="badges">${c.badges.map(b=>`<span class="badge">${b}</span>`).join("")}</div><div class="detailgrid"><div class="card"><h3>Entry & prerequisites</h3><div class="list">${c.exams.map(x=>`<div>📝 ${x}</div>`).join("")}${c.degrees.map(x=>`<div>🎓 ${x}</div>`).join("")}</div><h3 style="margin-top:18px">Core skills</h3><div class="badges">${c.skills.map(x=>`<span class="badge">${x}</span>`).join("")}</div></div><div class="card"><h3>Syllabus preview</h3><div class="list">${c.syllabus.map(x=>`<div>📖 ${x}</div>`).join("")}</div></div></div><div class="card" style="margin-top:16px"><h3>🇮🇳 Curated learning channels</h3><div class="badges">${c.channels.map(x=>`<span class="badge">${x}</span>`).join("")}</div><h3 style="margin-top:18px">Topic-tagged videos</h3><div class="list">${c.videos.map(v=>`<div class="video"><span>🎥 ${v}</span><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(v+" "+c.title)}" target="_blank">Watch search →</a></div>`).join("")}</div></div><button class="btn primary" style="margin-top:16px" onclick="chooseCareer('${c.id}');closeModal()">Generate my roadmap →</button>`)}
+function chooseCareer(id){state.goal=id;state.roadmap=state.roadmap||{};save();renderRoadmap();scrollToId("roadmap");toast("Career goal saved ✓")}
+function clearGoal(){delete state.goal;delete state.roadmap;save();renderRoadmap();toast("Career goal cleared")}
+function makeTasks(c){return c.syllabus.slice(0,7).map((s,i)=>({id:c.id+"-"+i,title:s+" — study & practice",video:c.videos[i%c.videos.length],done:false,skipped:false}))}
+function renderRoadmap(){
+ const c=careers.find(x=>x.id===state.goal);const el=document.getElementById("roadmapContent");
+ if(!c){el.className="empty";el.innerHTML="Choose a career to generate your roadmap.";document.getElementById("roadmapTitle").textContent="Your roadmap";updateDash();return}
+ if(!state.roadmap.tasks)state.roadmap.tasks=makeTasks(c);
+ el.className=""; document.getElementById("roadmapTitle").textContent=c.title+" roadmap";
+ const tasks=state.roadmap.tasks;
+ el.innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><div class="small">${c.timeline}</div><h3>Personalized execution plan</h3><p class="muted">Month 1 · Foundations → Month 2 · Core skills → Month 3 · Projects + mock → repeat and deepen.</p></div><span class="badge">${tasks.filter(t=>t.done).length}/${tasks.length} complete</span></div><div class="progress" style="margin:15px 0"><i style="width:${tasks.filter(t=>t.done).length/tasks.length*100}%"></i></div><div class="roadmap">${tasks.map((t,i)=>`<div class="day"><div class="daynum">DAY ${i+1}</div><div class="task ${t.done?"done":""}"><b>${t.title}</b><div class="small">🎥 ${t.video} · <a style="color:var(--ember)" target="_blank" href="https://www.youtube.com/results?search_query=${encodeURIComponent(t.video+" "+c.title)}">open video</a></div>${t.skipped?'<div class="small" style="color:var(--ember);font-weight:800">↪ Rescheduled in catch-up mode</div>':""}</div><button class="check" onclick="toggleTask(${i})">${t.done?"✓":"○"}</button></div>`).join("")}</div></div><div class="card" style="margin-top:16px"><h3>📝 Mock test slot</h3><p class="muted">After completing this block, take a topic mock. Every answer should map back to a chapter and explanation.</p><button class="btn primary" onclick="openMock()">Start demo mock →</button></div>`;
+ updateDash();save();
+}
+function toggleTask(i){state.roadmap.tasks[i].done=!state.roadmap.tasks[i].done;save();renderRoadmap()}
+function completeToday(){if(!state.goal){toast("Choose a career first.");return}let t=state.roadmap.tasks.find(x=>!x.done);if(t){t.done=true;state.streak=(state.streak||0)+1;save();renderRoadmap();toast("Nice work — task completed 🔥")}else toast("All current tasks are complete!")}
+function skipToday(){if(!state.goal){toast("Choose a career first.");return}let t=state.roadmap.tasks.find(x=>!x.done);if(t){t.skipped=true;state.roadmap.tasks.push({...t,id:t.id+"-catchup",skipped:false});t.done=true;save();renderRoadmap();toast("Catch-up mode: task moved forward ↪")} }
+function updateDash(){const tasks=state.roadmap?.tasks||[];const done=tasks.filter(t=>t.done).length;document.getElementById("progressBar").style.width=(tasks.length?done/tasks.length*100:0)+"%";document.getElementById("progressText").textContent=(tasks.length?Math.round(done/tasks.length*100):0)+"% roadmap progress";const next=tasks.find(t=>!t.done);document.getElementById("todayTask").textContent=next?next.title:(state.goal?"All current tasks complete 🎉":"Choose a career first.");document.getElementById("streak").textContent=(state.streak||0)+" day"+((state.streak||0)===1?"":"s")}
+function openMock(){const c=careers.find(x=>x.id===state.goal);const topic=c.syllabus[0]||"Foundations";openModal(`<div class="eyebrow">📝 Demo Mock Test</div><h2>${c.title}</h2><p class="muted">Question → answer → explanation → syllabus mapping.</p><div class="card"><h3>Q1. Which area belongs directly to this roadmap?</h3><div class="list">${c.syllabus.slice(0,4).map((x,i)=>`<button class="btn secondary" style="text-align:left" onclick="submitMock(${i})">${String.fromCharCode(65+i)}. ${x}</button>`).join("")}</div></div><div id="mockResult"></div>`)}
+function submitMock(i){const c=careers.find(x=>x.id===state.goal);const correct=0;document.getElementById("mockResult").innerHTML=`<div class="card" style="margin-top:16px"><h3>${i===correct?"✅ Correct":"❌ Review this one"}</h3><p><b>Correct answer:</b> A — ${c.syllabus[0]}</p><p><b>Explanation:</b> This is one of the foundational syllabus areas used to build the roadmap for ${c.title}.</p><p><b>Mapped chapter:</b> ${c.syllabus[0]}</p><a class="btn secondary" target="_blank" href="https://www.youtube.com/results?search_query=${encodeURIComponent(c.videos[0]+" "+c.title)}">🎥 Revise this topic</a></div>`}
+function mood(m){const msgs={😄:"Great energy. Keep the momentum!",🙂:"Steady is good. One useful task is enough.",😐:"Let's keep today simple and achievable.",😴:"Low energy? Use catch-up mode and do one small task.",😕:"You're not behind forever. Let's take one step together.",🔥:"You're locked in. Let's use that momentum!"};document.getElementById("moodMsg").textContent=msgs[m]}
+function openModal(html){document.getElementById("modalContent").innerHTML=html;document.getElementById("modal").classList.add("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+const quotes=["Small progress is still progress. Keep moving.","Your roadmap can change. Your direction doesn't have to disappear.","One chapter today is one less chapter tomorrow.","You don't need perfect days. You need enough good ones.","Build the skill, then build the proof.","When life interrupts the plan, adapt the plan — not the dream."];
+document.getElementById("quote").textContent=quotes[new Date().getDate()%quotes.length];
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(x=>obs.observe(x));
+let lastY=0,raf=false;window.addEventListener("scroll",()=>{lastY=window.scrollY;if(!raf){requestAnimationFrame(()=>{document.querySelectorAll(".bg-orb").forEach((o,i)=>o.style.transform=`translate3d(0,${lastY*(i+1)*.035}px,0)`);raf=false});raf=true}});
+renderQualifications();renderFilters();renderCareers();renderRoadmap();updateDash();
+</script>
+</body>
+</html>
